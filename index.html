@@ -82,12 +82,19 @@
     <div id="notification"></div>
     <div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md">
         
-        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">PLAN DE TRABAJO</h1>
+        <div class="flex justify-between items-start mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">PLAN DE TRABAJO</h1>
+            <div class="text-right">
+                <label for="plan-numero" class="block text-sm font-medium text-gray-500">Número de Plan:</label>
+                <input type="text" id="plan-numero" name="plan-numero" class="text-right font-mono bg-gray-100 border-none rounded p-1" readonly>
+            </div>
+        </div>
+
 
         <!-- Título Principal -->
         <div class="mb-6">
             <label for="main-title" class="block text-sm font-medium text-gray-700 mb-2">Título del Plan de Trabajo</label>
-            <textarea id="main-title" name="main-title" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Ej: MANTENIMIENTO DE ESTACIONES E IMPLEMENTACION DE SENSORES..." required>“MANTENIMIENTO DE ESTACIONES E IMPLEMENTACION DE SENSORES DE PRECIPITACION EN EL MARCO DEL PROGRAMA DE LLUVIAS INTENSAS PARA LAS ESTACIONES DE CO CABANILLAS Y CO LAMPA (DZ13) ”</textarea>
+            <textarea id="main-title" name="main-title" rows="3" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Describir el titulo de la comisión de servicio" required></textarea>
         </div>
 
         <!-- Justificación -->
@@ -876,12 +883,33 @@
             agregarFila('encargo-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this, false, true)" class="remove-btn">X</button></td>`, true);
         }
 
+        // --- Generador de Número de Plan ---
+        function generarNumeroDePlan() {
+            const currentYear = new Date().getFullYear();
+            let lastYear = localStorage.getItem('planLastYear');
+            let correlative = localStorage.getItem('planCorrelative');
+
+            if (lastYear && parseInt(lastYear) === currentYear) {
+                correlative = parseInt(correlative) + 1;
+            } else {
+                correlative = 1;
+            }
+
+            localStorage.setItem('planLastYear', currentYear);
+            localStorage.setItem('planCorrelative', correlative);
+            
+            const paddedCorrelative = String(correlative).padStart(3, '0');
+            document.getElementById('plan-numero').value = `PT-${currentYear}-${paddedCorrelative}`;
+        }
+
+
         window.onload = function() {
             // Cargar datos del borrador o inicializar
             // cargarBorrador(); // Esta función se puede implementar completamente
             
             // Inicializar con valores por defecto si no hay borrador
             if (!localStorage.getItem('planTrabajoBorrador')) {
+                generarNumeroDePlan();
                 agregarParticipante();
                 agregarEstacion();
                 agregarHerramienta();
