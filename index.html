@@ -262,41 +262,99 @@
         <!-- Presupuesto -->
         <div class="mb-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">9. Presupuesto Requerido</h2>
-            <h3 class="font-medium text-gray-700 mb-2 mt-4">9.1 Gastos para comisión de servicio</h3>
-             <table class="w-full">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unidad</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cant.</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit.</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total S/.</th>
-                        <th class="p-2"></th>
-                    </tr>
-                </thead>
-                <tbody id="gastos-tbody"></tbody>
-            </table>
-            <button onclick="agregarGasto()" class="add-btn mt-4">Agregar Gasto</button>
+            
+            <!-- 9.1 Gastos para comisión de servicio -->
+            <div class="border rounded-lg p-4">
+                <h3 class="text-md font-semibold text-gray-800 mb-3">9.1 Gastos para comisión de servicio</h3>
+                
+                <!-- Viáticos -->
+                <div class="mb-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Viáticos</h4>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N°</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unid.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cant.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total S/.</th>
+                                <th class="p-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="viaticos-tbody"></tbody>
+                    </table>
+                    <button onclick="agregarViatico()" class="add-btn mt-2 text-sm">Agregar Viático</button>
+                </div>
 
-            <h3 class="font-medium text-gray-700 mb-2 mt-6">9.2 Gasto por encargo</h3>
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit. (S/.)</th>
-                        <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total (S/.)</th>
-                        <th class="p-2"></th>
-                    </tr>
-                </thead>
-                <tbody id="encargo-tbody"></tbody>
-            </table>
-            <button onclick="agregarEncargo()" class="add-btn mt-4">Agregar Encargo</button>
-            <div class="text-right mt-4 font-bold text-lg">
-                <p>Subtotal Gastos: S/. <span id="subtotal-gastos">0.00</span></p>
-                <p>Subtotal Encargos: S/. <span id="subtotal-encargos">0.00</span></p>
-                <p class="text-blue-600">Total General: S/. <span id="total-general">0.00</span></p>
+                <!-- Pasajes Aéreos -->
+                <div class="mb-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Pasajes Aéreos</h4>
+                    <table class="w-full">
+                         <thead>
+                            <tr class="bg-gray-50">
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N°</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unid.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cant.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total S/.</th>
+                                <th class="p-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="pasajes-tbody"></tbody>
+                    </table>
+                    <button onclick="agregarPasaje()" class="add-btn mt-2 text-sm">Agregar Pasaje</button>
+                </div>
+
+                <!-- Combustible -->
+                <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Combustible</h4>
+                    <table class="w-full">
+                         <thead>
+                            <tr class="bg-gray-50">
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N°</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unid.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cant.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit.</th>
+                                <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total S/.</th>
+                                <th class="p-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="combustible-tbody"></tbody>
+                    </table>
+                    <button onclick="agregarCombustible()" class="add-btn mt-2 text-sm">Agregar Combustible</button>
+                </div>
+                <div class="text-right mt-4 font-bold text-lg border-t pt-2">
+                    <p>Total Comisión de Servicio: S/. <span id="total-comision">0.00</span></p>
+                </div>
+            </div>
+
+            <!-- 9.2 Gasto por encargo -->
+            <div class="border rounded-lg p-4 mt-6">
+                <h3 class="text-md font-semibold text-gray-800 mb-3">9.2 Gasto por encargo</h3>
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+                            <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                            <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                            <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit. (S/.)</th>
+                            <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total (S/.)</th>
+                            <th class="p-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="encargo-tbody"></tbody>
+                </table>
+                <button onclick="agregarEncargo()" class="add-btn mt-4">Agregar Encargo</button>
+                <div class="text-right mt-4 font-bold text-lg border-t pt-2">
+                    <p>Total Encargos: S/. <span id="total-encargos">0.00</span></p>
+                </div>
+            </div>
+
+            <div class="text-right mt-6 font-bold text-2xl text-blue-600">
+                <p>Total General del Presupuesto: S/. <span id="total-general">0.00</span></p>
             </div>
         </div>
 
@@ -638,15 +696,35 @@
 
         // --- Funciones de Cálculo de Presupuesto ---
         function calcularTotales() {
-            let subtotalGastos = 0;
-            document.querySelectorAll('#gastos-tbody tr').forEach(row => {
-                const cantidad = parseFloat(row.cells[2].querySelector('input').value) || 0;
-                const precio = parseFloat(row.cells[3].querySelector('input').value) || 0;
+            let subtotalViaticos = 0;
+            document.querySelectorAll('#viaticos-tbody tr').forEach(row => {
+                const cantidad = parseFloat(row.cells[3].querySelector('input').value) || 0;
+                const precio = parseFloat(row.cells[4].querySelector('input').value) || 0;
                 const totalFila = cantidad * precio;
-                row.cells[4].querySelector('input').value = totalFila.toFixed(2);
-                subtotalGastos += totalFila;
+                row.cells[5].querySelector('input').value = totalFila.toFixed(2);
+                subtotalViaticos += totalFila;
             });
-            document.getElementById('subtotal-gastos').textContent = subtotalGastos.toFixed(2);
+
+            let subtotalPasajes = 0;
+            document.querySelectorAll('#pasajes-tbody tr').forEach(row => {
+                const cantidad = parseFloat(row.cells[3].querySelector('input').value) || 0;
+                const precio = parseFloat(row.cells[4].querySelector('input').value) || 0;
+                const totalFila = cantidad * precio;
+                row.cells[5].querySelector('input').value = totalFila.toFixed(2);
+                subtotalPasajes += totalFila;
+            });
+
+            let subtotalCombustible = 0;
+            document.querySelectorAll('#combustible-tbody tr').forEach(row => {
+                const cantidad = parseFloat(row.cells[3].querySelector('input').value) || 0;
+                const precio = parseFloat(row.cells[4].querySelector('input').value) || 0;
+                const totalFila = cantidad * precio;
+                row.cells[5].querySelector('input').value = totalFila.toFixed(2);
+                subtotalCombustible += totalFila;
+            });
+            
+            const totalComision = subtotalViaticos + subtotalPasajes + subtotalCombustible;
+            document.getElementById('total-comision').textContent = totalComision.toFixed(2);
 
             let subtotalEncargos = 0;
             document.querySelectorAll('#encargo-tbody tr').forEach(row => {
@@ -656,20 +734,21 @@
                 row.cells[4].querySelector('input').value = totalFila.toFixed(2);
                 subtotalEncargos += totalFila;
             });
-            document.getElementById('subtotal-encargos').textContent = subtotalEncargos.toFixed(2);
+            document.getElementById('total-encargos').textContent = subtotalEncargos.toFixed(2);
 
-            document.getElementById('total-general').textContent = (subtotalGastos + subtotalEncargos).toFixed(2);
+            document.getElementById('total-general').textContent = (totalComision + subtotalEncargos).toFixed(2);
         }
 
         // --- Funciones de Lógica de Tablas ---
-        function agregarFila(tbodyId, celdasHtml) {
+        function agregarFila(tbodyId, celdasHtml, isPresupuesto = false) {
             const tbody = document.getElementById(tbodyId);
             const newRow = tbody.insertRow();
             newRow.innerHTML = celdasHtml;
             renumerarTabla(tbodyId);
+            if(isPresupuesto) calcularTotales();
         }
 
-        function eliminarFila(button, isParticipant = false) {
+        function eliminarFila(button, isParticipant = false, isPresupuesto = false) {
             const row = button.parentNode.parentNode;
             const tbody = row.parentNode;
             const tbodyId = tbody.id;
@@ -678,13 +757,13 @@
             if (isParticipant) {
                 actualizarPeriodoComision();
             }
-            if (tbodyId === 'gastos-tbody' || tbodyId === 'encargo-tbody') {
+            if (isPresupuesto) {
                 calcularTotales();
             }
         }
         
         function renumerarTabla(tbodyId) {
-             const tablesToRenumber = ['participantes-tbody', 'estaciones-tbody', 'herramientas-tbody', 'repuestos-tbody', 'encargo-tbody', 'periodo-tbody'];
+             const tablesToRenumber = ['participantes-tbody', 'estaciones-tbody', 'herramientas-tbody', 'repuestos-tbody', 'encargo-tbody', 'periodo-tbody', 'viaticos-tbody', 'pasajes-tbody', 'combustible-tbody'];
              if (!tablesToRenumber.includes(tbodyId)) return;
              const tbody = document.getElementById(tbodyId);
              if (tbody) {
@@ -781,12 +860,20 @@
             agregarFila('repuestos-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" style="width: 80px;"></td><td><input type="text" class="table-input"></td><td class="text-center"><button onclick="eliminarFila(this)" class="remove-btn">X</button></td>`);
         }
         
-        function agregarGasto() {
-            agregarFila('gastos-tbody', `<td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this)" class="remove-btn">X</button></td>`);
+        function agregarViatico() {
+            agregarFila('viaticos-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this, false, true)" class="remove-btn">X</button></td>`, true);
         }
 
+        function agregarPasaje() {
+            agregarFila('pasajes-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this, false, true)" class="remove-btn">X</button></td>`, true);
+        }
+
+        function agregarCombustible() {
+            agregarFila('combustible-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this, false, true)" class="remove-btn">X</button></td>`, true);
+        }
+        
         function agregarEncargo() {
-            agregarFila('encargo-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this)" class="remove-btn">X</button></td>`);
+            agregarFila('encargo-tbody', `<td></td><td><input type="text" class="table-input"></td><td><input type="number" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" oninput="calcularTotales()"></td><td><input type="number" step="0.01" class="table-input" readonly></td><td class="text-center"><button onclick="eliminarFila(this, false, true)" class="remove-btn">X</button></td>`, true);
         }
 
         window.onload = function() {
@@ -799,7 +886,9 @@
                 agregarEstacion();
                 agregarHerramienta();
                 agregarRepuesto();
-                agregarGasto();
+                agregarViatico();
+                agregarPasaje();
+                agregarCombustible();
                 agregarEncargo();
             }
 
