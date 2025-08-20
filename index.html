@@ -182,12 +182,10 @@
                         <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Día</th>
                         <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
                         <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                        <th class="p-2"></th>
                     </tr>
                 </thead>
                 <tbody id="actividades-tbody"></tbody>
             </table>
-            <button onclick="agregarActividad()" class="add-btn mt-4">Agregar Actividad</button>
         </div>
 
         <!-- Presupuesto -->
@@ -254,13 +252,13 @@
             renumerarTabla(tbodyId);
         }
 
-        function eliminarFila(button, tbodyIdToUpdate) {
+        function eliminarFila(button, isParticipant = false) {
             const row = button.parentNode.parentNode;
             const tbody = row.parentNode;
             const tbodyId = tbody.id;
             row.parentNode.removeChild(row);
             renumerarTabla(tbodyId);
-            if (tbodyIdToUpdate) {
+            if (isParticipant) {
                 actualizarPeriodoComision();
             }
         }
@@ -273,7 +271,7 @@
              if (!tablesToRenumber.includes(tbodyId)) return;
 
              const tbody = document.getElementById(tbodyId);
-             if (tbody && tbody.rows.length > 0 && tbody.rows[0].cells.length > 1) {
+             if (tbody && tbody.rows.length > 0) {
                  for (let i = 0; i < tbody.rows.length; i++) {
                      tbody.rows[i].cells[0].textContent = i + 1;
                  }
@@ -283,7 +281,21 @@
         function actualizarPeriodoComision() {
             const participantesTbody = document.getElementById('participantes-tbody');
             const periodoTbody = document.getElementById('periodo-tbody');
-            periodoTbody.innerHTML = ''; // Limpiar la tabla de período
+            
+            // 1. Guardar los datos existentes de la tabla de período
+            const periodoData = [];
+            for (let i = 0; i < periodoTbody.rows.length; i++) {
+                const row = periodoTbody.rows[i];
+                periodoData.push({
+                    salida: row.cells[3].querySelector('input').value,
+                    detallesSalida: row.cells[4].querySelector('textarea').value,
+                    retorno: row.cells[5].querySelector('input').value,
+                    detallesRetorno: row.cells[6].querySelector('textarea').value
+                });
+            }
+
+            // 2. Limpiar y reconstruir la tabla de período
+            periodoTbody.innerHTML = ''; 
 
             for (let i = 0; i < participantesTbody.rows.length; i++) {
                 const participanteRow = participantesTbody.rows[i];
@@ -293,16 +305,56 @@
                 const nombre = nombreInput ? nombreInput.value : '';
                 const oficina = oficinaInput ? oficinaInput.value : '';
 
+                // Restaurar datos guardados si existen
+                const data = periodoData[i] || {};
+
                 const newRow = periodoTbody.insertRow();
                 newRow.innerHTML = `
                     <td>${i + 1}</td>
                     <td><input type="text" class="table-input" value="${nombre}" readonly></td>
                     <td><input type="text" class="table-input" value="${oficina}" readonly></td>
-                    <td><input type="date" class="table-input"></td>
-                    <td><textarea class="table-input" rows="1"></textarea></td>
-                    <td><input type="date" class="table-input"></td>
-                    <td><textarea class="table-input" rows="1"></textarea></td>
+                    <td><input type="date" class="table-input" value="${data.salida || ''}" onchange="actualizarPlanActividades()"></td>
+                    <td><textarea class="table-input" rows="1">${data.detallesSalida || ''}</textarea></td>
+                    <td><input type="date" class="table-input" value="${data.retorno || ''}" onchange="actualizarPlanActividades()"></td>
+                    <td><textarea class="table-input" rows="1">${data.detallesRetorno || ''}</textarea></td>
                 `;
+            }
+            actualizarPlanActividades();
+        }
+
+        function actualizarPlanActividades() {
+            const periodoTbody = document.getElementById('periodo-tbody');
+            const actividadesTbody = document.getElementById('actividades-tbody');
+            actividadesTbody.innerHTML = ''; 
+
+            const startDates = Array.from(periodoTbody.querySelectorAll('td:nth-child(4) input[type="date"]'))
+                                    .map(input => input.value).filter(Boolean)
+                                    .map(date => new Date(date + 'T00:00:00'));
+
+            const returnDates = Array.from(periodoTbody.querySelectorAll('td:nth-child(6) input[type="date"]'))
+                                     .map(input => input.value).filter(Boolean)
+                                     .map(date => new Date(date + 'T00:00:00'));
+
+            if (startDates.length === 0 || returnDates.length === 0) return;
+
+            const minDate = new Date(Math.min.apply(null, startDates));
+            const maxDate = new Date(Math.max.apply(null, returnDates));
+
+            if (isNaN(minDate.getTime()) || isNaN(maxDate.getTime()) || minDate > maxDate) return;
+
+            let currentDate = new Date(minDate);
+            let dayCounter = 1;
+
+            while (currentDate <= maxDate) {
+                const newRow = actividadesTbody.insertRow();
+                const formattedDate = currentDate.toISOString().split('T')[0];
+                newRow.innerHTML = `
+                    <td>Día ${dayCounter}</td>
+                    <td><input type="text" class="table-input" value="${formattedDate}" readonly></td>
+                    <td><textarea class="table-input" rows="2"></textarea></td>
+                `;
+                currentDate.setDate(currentDate.getDate() + 1);
+                dayCounter++;
             }
         }
 
@@ -318,7 +370,7 @@
                 <td><input type="text" class="table-input"></td>
                 <td><input type="text" class="table-input"></td>
                 <td><input type="text" class="table-input"></td>
-                <td class="text-center"><button onclick="eliminarFila(this, 'participantes-tbody')" class="remove-btn">X</button></td>
+                <td class="text-center"><button onclick="eliminarFila(this, true)" class="remove-btn">X</button></td>
             `;
             renumerarTabla('participantes-tbody');
             actualizarPeriodoComision();
@@ -363,16 +415,6 @@
             agregarFila('repuestos-tbody', html);
         }
         
-        function agregarActividad() {
-            const html = `
-                <td><input type="text" class="table-input" placeholder="Día 1..."></td>
-                <td><input type="date" class="table-input"></td>
-                <td><textarea class="table-input" rows="2"></textarea></td>
-                <td class="text-center"><button onclick="eliminarFila(this)" class="remove-btn">X</button></td>
-            `;
-            agregarFila('actividades-tbody', html);
-        }
-
         function agregarGasto() {
             const html = `
                 <td><input type="text" class="table-input"></td>
@@ -401,20 +443,12 @@
         window.onload = function() {
             // Participantes
             agregarParticipante();
-            agregarParticipante();
-            agregarParticipante();
             // Estaciones
-            agregarEstacion();
             agregarEstacion();
             // Herramientas
             agregarHerramienta();
-            agregarHerramienta();
             // Repuestos
             agregarRepuesto();
-            agregarRepuesto();
-            // Actividades
-            agregarActividad();
-            agregarActividad();
             // Gastos
             agregarGasto();
             // Encargos
